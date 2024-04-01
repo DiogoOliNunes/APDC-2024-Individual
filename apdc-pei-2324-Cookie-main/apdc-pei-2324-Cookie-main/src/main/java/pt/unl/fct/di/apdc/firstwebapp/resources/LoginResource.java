@@ -100,12 +100,8 @@ public class LoginResource {
 	
 	private static boolean checkPassword(LoginData data)  {
 		UserData user = users.get(data.username);
-		
-		if(user == null || !user.password.equals(data.password)) {
-			return false;
-		}
-		
-		return true;
+
+		return user != null && user.password.equals(data.password);
 	}
 	
 	private static int convertRole(String role) {
