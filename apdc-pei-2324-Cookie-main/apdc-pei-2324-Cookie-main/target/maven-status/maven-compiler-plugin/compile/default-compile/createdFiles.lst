@@ -2,6 +2,7 @@ pt\unl\fct\di\apdc\firstwebapp\resources\LoginResource.class
 pt\unl\fct\di\apdc\firstwebapp\util\ChangeRoleData.class
 pt\unl\fct\di\apdc\firstwebapp\filters\AdditionalResponseHeadersFilter.class
 pt\unl\fct\di\apdc\firstwebapp\util\UserData.class
+pt\unl\fct\di\apdc\firstwebapp\util\ChangeStateData.class
 pt\unl\fct\di\apdc\firstwebapp\resources\ComputationResource.class
 pt\unl\fct\di\apdc\firstwebapp\resources\RegisterResource.class
 pt\unl\fct\di\apdc\firstwebapp\Authentication\SignatureUtils.class

@@ -20,6 +20,7 @@ import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import org.apache.commons.codec.digest.DigestUtils;
 import pt.unl.fct.di.apdc.firstwebapp.util.ChangeRoleData;
+import pt.unl.fct.di.apdc.firstwebapp.util.ChangeStateData;
 import pt.unl.fct.di.apdc.firstwebapp.util.LoginData;
 import pt.unl.fct.di.apdc.firstwebapp.Authentication.SignatureUtils;
 import pt.unl.fct.di.apdc.firstwebapp.util.UserData;
@@ -58,6 +59,8 @@ public class LoginResource {
 		Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.username);
 		Entity user = datastore.get(userKey);
 
+		//falta definir que quando o estado esta em INATIVO nao pode fazer login
+
 		if(!checkPassword(data, user)) {
 			return Response.status(Status.FORBIDDEN).entity("Incorrect username or password.").build();
 		}
@@ -82,12 +85,12 @@ public class LoginResource {
 	@Path("/changeRoles")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response changeRoles(@CookieParam("session::apdc") Cookie cookie, ChangeRoleData data) {
-		LOG.fine("Attempt to change roles from: " + data.username);
+		LOG.fine("Attempt to change " + data.username + " roles.");
 
 		Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.username);
 		Entity user = datastore.get(userKey);
 
-		if(user == null || !checkPermissions(cookie, user.getString("user_role")))
+		if(user == null|| !checkPermissions(cookie, user.getString("user_role")))
 			return Response.status(Status.FORBIDDEN).entity("User not allowed to change roles.").build();
 
 		Entity.Builder builder = Entity.newBuilder(userKey);
@@ -98,6 +101,33 @@ public class LoginResource {
 		datastore.put(builder.build());
 
 		return Response.ok().entity("Users' roles successfully changed.").build();
+	}
+
+	@POST
+	@Path("/changeState")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response changeState(@CookieParam("session::apdc") Cookie cookie, ChangeStateData data) {
+		LOG.fine("Attempt to change " + data.username + " state.");
+
+		Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.username);
+		Entity user = datastore.get(userKey);
+
+		if(user == null || !checkPermissions(cookie, user.getString("user_role")))
+			return Response.status(Status.FORBIDDEN).entity("User not allowed to change states.").build();
+
+		String userState = user.getString("user_estado");
+
+		Entity.Builder builder = Entity.newBuilder(userKey);
+		user.getProperties().forEach(builder::set);
+
+		if (userState.equals("INATIVO"))
+			builder.set("user_estado", "ATIVO");
+		else
+			builder.set("user_estado", "INATIVO");
+
+		datastore.put(builder.build());
+
+		return Response.ok().entity("User's state successfully changed.").build();
 	}
 
 	private static boolean checkPassword(LoginData data, Entity user)  {

@@ -61,7 +61,7 @@ public class RegisterResource {
                 txn.add(user);
                 LOG.info("User registered " + data.username);
                 txn.commit();
-                return Response.ok("{}").build();
+                return Response.ok(data.name + " successfully registered!").build();
             }
         } finally {
             if (txn.isActive()) {
