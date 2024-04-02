@@ -1,5 +1,7 @@
 package pt.unl.fct.di.apdc.firstwebapp.util;
 
+import pt.unl.fct.di.apdc.firstwebapp.util.UserData;
+
 public class RegisterData {
 
     public String username;
@@ -8,8 +10,6 @@ public class RegisterData {
     public String phone;
     public String password;
     public String confirmation;
-    public String role;
-    public String state;
 
     public RegisterData() {
     }
@@ -22,8 +22,6 @@ public class RegisterData {
         this.phone = phone;
         this.password = password;
         this.confirmation = confirmation;
-        this.role = "USER";
-        this.state = "INATIVO";
     }
 
     public boolean validRegistration() {

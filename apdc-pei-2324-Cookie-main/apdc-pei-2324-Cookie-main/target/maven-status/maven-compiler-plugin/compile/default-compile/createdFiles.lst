@@ -4,6 +4,5 @@ pt\unl\fct\di\apdc\firstwebapp\util\UserData.class
 pt\unl\fct\di\apdc\firstwebapp\resources\ComputationResource.class
 pt\unl\fct\di\apdc\firstwebapp\resources\RegisterResource.class
 pt\unl\fct\di\apdc\firstwebapp\Authentication\SignatureUtils.class
-pt\unl\fct\di\apdc\firstwebapp\util\AuthToken.class
 pt\unl\fct\di\apdc\firstwebapp\util\LoginData.class
 pt\unl\fct\di\apdc\firstwebapp\util\RegisterData.class
