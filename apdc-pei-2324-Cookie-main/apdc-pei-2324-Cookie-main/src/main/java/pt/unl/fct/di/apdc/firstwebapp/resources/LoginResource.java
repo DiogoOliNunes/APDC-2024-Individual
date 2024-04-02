@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Cookie;
@@ -14,16 +13,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import com.google.cloud.Timestamp;
 import com.google.common.hash.Hashing;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
-import org.apache.commons.codec.digest.DigestUtils;
-import pt.unl.fct.di.apdc.firstwebapp.util.ChangeRoleData;
-import pt.unl.fct.di.apdc.firstwebapp.util.ChangeStateData;
-import pt.unl.fct.di.apdc.firstwebapp.util.LoginData;
+import pt.unl.fct.di.apdc.firstwebapp.util.*;
 import pt.unl.fct.di.apdc.firstwebapp.Authentication.SignatureUtils;
-import pt.unl.fct.di.apdc.firstwebapp.util.UserData;
 
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.Entity;
@@ -106,7 +100,7 @@ public class LoginResource {
 	@POST
 	@Path("/changeState")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response changeState(@CookieParam("session::apdc") Cookie cookie, ChangeStateData data) {
+	public Response changeState(@CookieParam("session::apdc") Cookie cookie, ChangeUserData data) {
 		LOG.fine("Attempt to change " + data.username + " state.");
 
 		Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.username);
@@ -129,6 +123,33 @@ public class LoginResource {
 
 		return Response.ok().entity("User's state successfully changed.").build();
 	}
+
+	@POST
+	@Path("/remove")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response removeUser(@CookieParam("session::apdc") Cookie cookie, ChangeUserData data) {
+		LOG.fine("Attempt to remove " + data.username + " from database.");
+
+		Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.username);
+		Entity user = datastore.get(userKey);
+
+		if(user == null || !checkPermissions(cookie, user.getString("user_role")))
+			return Response.status(Status.FORBIDDEN).entity("User not allowed to remove this account.").build();
+
+		datastore.delete(userKey);
+
+		return Response.ok().entity(data.username + " successfully removed from database.").build();
+	}
+
+	/*
+	@POST
+	@Path("/changePassword")
+	@Consumes(MediaType.APPLICATION_JSON) //ele tem que confirmar entre a pass que deu no login e a que mete agora?
+	public Response changePassword(@CookieParam("session::apdc") Cookie cookie, ChangePasswordData data) {
+		LOG.fine("Attempt to change user password.");
+
+	}
+	 */
 
 	private static boolean checkPassword(LoginData data, Entity user)  {
 		String hashedPass = Hashing.sha512().hashString(data.password, StandardCharsets.UTF_8).toString();
