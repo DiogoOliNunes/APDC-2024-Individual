@@ -90,16 +90,12 @@ public class LoginResource {
 		if(user == null || !checkPermissions(cookie, user.getString("user_role")))
 			return Response.status(Status.FORBIDDEN).entity("User not allowed to change roles.").build();
 
-		user = Entity.newBuilder(userKey)
-				.set("user_name", user.getString("user_name"))
-				.set("user_pwd", DigestUtils.sha512Hex(user.getString("user_pwd")))
-				.set("user_email", user.getString("user_email"))
-				.set("user_phone", user.getString("user_phone"))
-				.set("user_creation_time", user.getString("user_creation_time"))
-				.set("user_role", data.newRole)
-				.set("user_estado", "INATIVO").build();
+		Entity.Builder builder = Entity.newBuilder(userKey);
+		user.getProperties().forEach(builder::set);
 
-		datastore.put(user);
+		builder.set("user_role", data.newRole);
+
+		datastore.put(builder.build());
 
 		return Response.ok().entity("Users' roles successfully changed.").build();
 	}
