@@ -6,21 +6,20 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.annotation.security.RolesAllowed;
+import javax.ws.rs.*;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.google.cloud.Timestamp;
 import com.google.common.hash.Hashing;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
+import org.apache.commons.codec.digest.DigestUtils;
+import pt.unl.fct.di.apdc.firstwebapp.util.ChangeRoleData;
 import pt.unl.fct.di.apdc.firstwebapp.util.LoginData;
 import pt.unl.fct.di.apdc.firstwebapp.Authentication.SignatureUtils;
 import pt.unl.fct.di.apdc.firstwebapp.util.UserData;
@@ -35,9 +34,10 @@ import com.google.gson.Gson;
 public class LoginResource {
 
 	//Settings that must be in the database
-	public static final String ADMIN = "Admin";
-	public static final String BACKOFFICE = "Backoffice";
-	public static final String REGULAR = "Regular";
+	public static final String SU = "SU";
+	public static final String GBO = "GBO";
+	public static final String GA = "GA";
+	public static final String USER = "USER";
 	private static final String key = "dhsjfhndkjvnjdsdjhfkjdsjfjhdskjhfkjsdhfhdkjhkfajkdkajfhdkmc";
 
 	private static final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
@@ -64,7 +64,7 @@ public class LoginResource {
 
 		String id = UUID.randomUUID().toString();
 		long currentTime = System.currentTimeMillis();
-		String fields = data.username+"."+ id +"."+REGULAR+"."+currentTime+"."+1000*60*60*2;
+		String fields = data.username+"."+ id +"."+user.getString("user_role")+"."+currentTime+"."+1000*60*60*2;
 
 		String signature = SignatureUtils.calculateHMac(key, fields);
 
@@ -76,6 +76,32 @@ public class LoginResource {
 		NewCookie cookie = new NewCookie("session::apdc", value, "/", null, "comment", 1000*60*60*2, false, true);
 
 		return Response.ok().cookie(cookie).build();
+	}
+
+	@POST
+	@Path("/changeRoles")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response changeRoles(@CookieParam("session::apdc") Cookie cookie, ChangeRoleData data) {
+		LOG.fine("Attempt to change roles from: " + data.username);
+
+		Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.username);
+		Entity user = datastore.get(userKey);
+
+		if(user == null || !checkPermissions(cookie, user.getString("user_role")))
+			return Response.status(Status.FORBIDDEN).entity("User not allowed to change roles.").build();
+
+		user = Entity.newBuilder(userKey)
+				.set("user_name", user.getString("user_name"))
+				.set("user_pwd", DigestUtils.sha512Hex(user.getString("user_pwd")))
+				.set("user_email", user.getString("user_email"))
+				.set("user_phone", user.getString("user_phone"))
+				.set("user_creation_time", user.getString("user_creation_time"))
+				.set("user_role", data.newRole)
+				.set("user_estado", "INATIVO").build();
+
+		datastore.put(user);
+
+		return Response.ok().entity("Users' roles successfully changed.").build();
 	}
 
 	private static boolean checkPassword(LoginData data, Entity user)  {
@@ -119,17 +145,16 @@ public class LoginResource {
 		int result = 0;
 
 		switch(role) {
-			case BACKOFFICE:
+			case GBO:
 				result = 1;
 				break;
-			case ADMIN:
+			case GA:
 				result = 2;
 				break;
-			case REGULAR:
-				result = 0;
+			case SU:
+				result = 3;
 				break;
 			default:
-				result = 0;
 				break;
 		}
 		return result;

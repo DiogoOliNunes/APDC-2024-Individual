@@ -42,7 +42,8 @@ public class ComputationResource {
 			return Response.temporaryRedirect(URI.create("/error/500.html")).build();
 		}
 	}
-	
+
+	/*
 	@GET
 	@Path("/time")
 	public Response getCurrentTime(@CookieParam("session::apdc") Cookie cookie) {
@@ -52,5 +53,7 @@ public class ComputationResource {
 		
 		return Response.ok().entity(g.toJson(fmt.format(new Date()))).build();
 	}
+
+	 */
 	
 }
