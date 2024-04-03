@@ -1,6 +1,7 @@
 package pt.unl.fct.di.apdc.firstwebapp.resources;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -13,14 +14,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.google.cloud.datastore.*;
+import com.google.cloud.datastore.StructuredQuery;
 import com.google.common.hash.Hashing;
-import com.google.cloud.datastore.Datastore;
-import com.google.cloud.datastore.DatastoreOptions;
 import pt.unl.fct.di.apdc.firstwebapp.util.*;
 import pt.unl.fct.di.apdc.firstwebapp.Authentication.SignatureUtils;
-
-import com.google.cloud.datastore.Key;
-import com.google.cloud.datastore.Entity;
 
 import com.google.gson.Gson;
 
@@ -54,6 +52,8 @@ public class LoginResource {
 		Entity user = datastore.get(userKey);
 
 		//falta definir que quando o estado esta em INATIVO nao pode fazer login
+		if (user.getString("user_estado").equals("INATIVO"))
+			return Response.status(Status.FORBIDDEN).entity("User is inactive.").build();
 
 		if(!checkPassword(data, user)) {
 			return Response.status(Status.FORBIDDEN).entity("Incorrect username or password.").build();
@@ -105,8 +105,9 @@ public class LoginResource {
 
 		Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.username);
 		Entity user = datastore.get(userKey);
+		String userRole = user.getString("user_role");
 
-		if(user == null || !checkPermissions(cookie, user.getString("user_role")))
+		if(user == null || !checkPermissions(cookie, userRole) || userRole.equals("USER") || userRole.equals("GBO"))
 			return Response.status(Status.FORBIDDEN).entity("User not allowed to change states.").build();
 
 		String userState = user.getString("user_estado");
@@ -172,6 +173,9 @@ public class LoginResource {
 			return false;
 		}
 
+		if(values[2].equals("USER") || values[2].equals("GBO"))
+			return false;
+
 		int neededRole = convertRole(role);
 		int userInSessionRole = convertRole(values[2]);
 
@@ -188,7 +192,7 @@ public class LoginResource {
 		return true;
 	}
 
-	private static int convertRole(String role) {
+	public static int convertRole(String role) {
 		int result = 0;
 
 		switch(role) {
