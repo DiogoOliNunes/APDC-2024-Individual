@@ -142,16 +142,6 @@ public class LoginResource {
 		return Response.ok().entity(data.username + " successfully removed from database.").build();
 	}
 
-	/*
-	@POST
-	@Path("/changePassword")
-	@Consumes(MediaType.APPLICATION_JSON) //ele tem que confirmar entre a pass que deu no login e a que mete agora?
-	public Response changePassword(@CookieParam("session::apdc") Cookie cookie, ChangePasswordData data) {
-		LOG.fine("Attempt to change user password.");
-
-	}
-	 */
-
 	private static boolean checkPassword(LoginData data, Entity user)  {
 		String hashedPass = Hashing.sha512().hashString(data.password, StandardCharsets.UTF_8).toString();
 

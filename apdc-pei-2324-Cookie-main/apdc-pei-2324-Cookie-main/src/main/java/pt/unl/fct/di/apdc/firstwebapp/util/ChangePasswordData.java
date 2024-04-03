@@ -9,15 +9,15 @@ public class ChangePasswordData {
 
     }
 
-    public ChangePasswordData(String currentPassword, String confirmation, String newPassword) {
+    public ChangePasswordData(String currentPassword, String newPassword, String confirmation) {
         this.currentPassword = currentPassword;
-        this.confirmation = confirmation;
         this.newPassword = newPassword;
+        this.confirmation = confirmation;
     }
 
     public boolean validPassword(String userPassword) {
         return (userPassword.equals(currentPassword) && currentPassword.equals(confirmation) && validNewPassword());
-    } //ele tem que fazer isto? userPassword.equals(currentPassword)
+    }
 
     private boolean validNewPassword() {
         return (!newPassword.isBlank() && newPassword.length() > 5);

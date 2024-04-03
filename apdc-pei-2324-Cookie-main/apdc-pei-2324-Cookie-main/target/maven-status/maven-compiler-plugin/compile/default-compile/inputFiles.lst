@@ -1,12 +1,13 @@
-C:\Users\User\Desktop\3 ano\2 sem\ADC\APDC-2024-Individual\apdc-pei-2324-Cookie-main\apdc-pei-2324-Cookie-main\src\main\java\pt\unl\fct\di\apdc\firstwebapp\util\RegisterData.java
-C:\Users\User\Desktop\3 ano\2 sem\ADC\APDC-2024-Individual\apdc-pei-2324-Cookie-main\apdc-pei-2324-Cookie-main\src\main\java\pt\unl\fct\di\apdc\firstwebapp\util\ChangeUserData.java
-C:\Users\User\Desktop\3 ano\2 sem\ADC\APDC-2024-Individual\apdc-pei-2324-Cookie-main\apdc-pei-2324-Cookie-main\src\main\java\pt\unl\fct\di\apdc\firstwebapp\util\LoginData.java
-C:\Users\User\Desktop\3 ano\2 sem\ADC\APDC-2024-Individual\apdc-pei-2324-Cookie-main\apdc-pei-2324-Cookie-main\src\main\java\pt\unl\fct\di\apdc\firstwebapp\resources\RegisterResource.java
-C:\Users\User\Desktop\3 ano\2 sem\ADC\APDC-2024-Individual\apdc-pei-2324-Cookie-main\apdc-pei-2324-Cookie-main\src\main\java\pt\unl\fct\di\apdc\firstwebapp\resources\ListUsersResource.java
-C:\Users\User\Desktop\3 ano\2 sem\ADC\APDC-2024-Individual\apdc-pei-2324-Cookie-main\apdc-pei-2324-Cookie-main\src\main\java\pt\unl\fct\di\apdc\firstwebapp\resources\ComputationResource.java
-C:\Users\User\Desktop\3 ano\2 sem\ADC\APDC-2024-Individual\apdc-pei-2324-Cookie-main\apdc-pei-2324-Cookie-main\src\main\java\pt\unl\fct\di\apdc\firstwebapp\util\ChangePasswordData.java
-C:\Users\User\Desktop\3 ano\2 sem\ADC\APDC-2024-Individual\apdc-pei-2324-Cookie-main\apdc-pei-2324-Cookie-main\src\main\java\pt\unl\fct\di\apdc\firstwebapp\resources\LoginResource.java
-C:\Users\User\Desktop\3 ano\2 sem\ADC\APDC-2024-Individual\apdc-pei-2324-Cookie-main\apdc-pei-2324-Cookie-main\src\main\java\pt\unl\fct\di\apdc\firstwebapp\util\ChangeRoleData.java
-C:\Users\User\Desktop\3 ano\2 sem\ADC\APDC-2024-Individual\apdc-pei-2324-Cookie-main\apdc-pei-2324-Cookie-main\src\main\java\pt\unl\fct\di\apdc\firstwebapp\Authentication\SignatureUtils.java
-C:\Users\User\Desktop\3 ano\2 sem\ADC\APDC-2024-Individual\apdc-pei-2324-Cookie-main\apdc-pei-2324-Cookie-main\src\main\java\pt\unl\fct\di\apdc\firstwebapp\filters\AdditionalResponseHeadersFilter.java
-C:\Users\User\Desktop\3 ano\2 sem\ADC\APDC-2024-Individual\apdc-pei-2324-Cookie-main\apdc-pei-2324-Cookie-main\src\main\java\pt\unl\fct\di\apdc\firstwebapp\util\UserData.java
+C:\Users\donun\OneDrive\Documentos\GitHub\APDC-2024-Individual\apdc-pei-2324-Cookie-main\apdc-pei-2324-Cookie-main\src\main\java\pt\unl\fct\di\apdc\firstwebapp\util\RegisterData.java
+C:\Users\donun\OneDrive\Documentos\GitHub\APDC-2024-Individual\apdc-pei-2324-Cookie-main\apdc-pei-2324-Cookie-main\src\main\java\pt\unl\fct\di\apdc\firstwebapp\Authentication\SignatureUtils.java
+C:\Users\donun\OneDrive\Documentos\GitHub\APDC-2024-Individual\apdc-pei-2324-Cookie-main\apdc-pei-2324-Cookie-main\src\main\java\pt\unl\fct\di\apdc\firstwebapp\filters\AdditionalResponseHeadersFilter.java
+C:\Users\donun\OneDrive\Documentos\GitHub\APDC-2024-Individual\apdc-pei-2324-Cookie-main\apdc-pei-2324-Cookie-main\src\main\java\pt\unl\fct\di\apdc\firstwebapp\util\ChangePasswordData.java
+C:\Users\donun\OneDrive\Documentos\GitHub\APDC-2024-Individual\apdc-pei-2324-Cookie-main\apdc-pei-2324-Cookie-main\src\main\java\pt\unl\fct\di\apdc\firstwebapp\util\LoginData.java
+C:\Users\donun\OneDrive\Documentos\GitHub\APDC-2024-Individual\apdc-pei-2324-Cookie-main\apdc-pei-2324-Cookie-main\src\main\java\pt\unl\fct\di\apdc\firstwebapp\util\ChangeRoleData.java
+C:\Users\donun\OneDrive\Documentos\GitHub\APDC-2024-Individual\apdc-pei-2324-Cookie-main\apdc-pei-2324-Cookie-main\src\main\java\pt\unl\fct\di\apdc\firstwebapp\resources\ListUsersResource.java
+C:\Users\donun\OneDrive\Documentos\GitHub\APDC-2024-Individual\apdc-pei-2324-Cookie-main\apdc-pei-2324-Cookie-main\src\main\java\pt\unl\fct\di\apdc\firstwebapp\resources\ComputationResource.java
+C:\Users\donun\OneDrive\Documentos\GitHub\APDC-2024-Individual\apdc-pei-2324-Cookie-main\apdc-pei-2324-Cookie-main\src\main\java\pt\unl\fct\di\apdc\firstwebapp\util\UserData.java
+C:\Users\donun\OneDrive\Documentos\GitHub\APDC-2024-Individual\apdc-pei-2324-Cookie-main\apdc-pei-2324-Cookie-main\src\main\java\pt\unl\fct\di\apdc\firstwebapp\resources\RegisterResource.java
+C:\Users\donun\OneDrive\Documentos\GitHub\APDC-2024-Individual\apdc-pei-2324-Cookie-main\apdc-pei-2324-Cookie-main\src\main\java\pt\unl\fct\di\apdc\firstwebapp\resources\ChangePasswordResource.java
+C:\Users\donun\OneDrive\Documentos\GitHub\APDC-2024-Individual\apdc-pei-2324-Cookie-main\apdc-pei-2324-Cookie-main\src\main\java\pt\unl\fct\di\apdc\firstwebapp\resources\LoginResource.java
+C:\Users\donun\OneDrive\Documentos\GitHub\APDC-2024-Individual\apdc-pei-2324-Cookie-main\apdc-pei-2324-Cookie-main\src\main\java\pt\unl\fct\di\apdc\firstwebapp\util\ChangeUserData.java
