@@ -26,11 +26,28 @@ public class RegisterData {
 
     public boolean validRegistration() {
         return (!username.isBlank() && !email.isBlank() && email.contains("@") && !name.isBlank()
-                && !phone.isBlank() && validPassword());
+                && !phone.isBlank() && onlyDigits(phone) && validPassword(password) && password.equals(confirmation));
     }
 
-    private boolean validPassword() {
-        return (!password.isBlank() && password.length() > 5 && password.equals(confirmation));
+    public static boolean validPassword(String password) {
+        return (!password.isBlank() && password.length() > 5);
     }
 
+    public static boolean onlyDigits(String newPhone) {
+        for (int i = 0; i < newPhone.length(); i++) {
+            if (!Character.isDigit(newPhone.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean onlyLetters(String name) {
+        for (int i = 0; i < name.length(); i++) {
+            if (!Character.isLetter(name.charAt(i))) {
+                    return false;
+                }
+            }
+            return true;
+    }
 }

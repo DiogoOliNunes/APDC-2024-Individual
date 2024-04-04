@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 import java.util.logging.Logger;
 
 import static pt.unl.fct.di.apdc.firstwebapp.resources.LoginResource.checkPermissions;
+import static pt.unl.fct.di.apdc.firstwebapp.util.ChangeRoleData.validRole;
 
 @Path("/changeRoles")
 @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
@@ -33,7 +34,7 @@ public class ChangeRolesResource {
         Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.username);
         Entity user = datastore.get(userKey);
 
-        if(user == null|| !checkRoleChange(cookie, user.getString("user_role")))
+        if(user == null|| !validRole(data.newRole) || !checkRoleChange(cookie, user.getString("user_role")))
             return Response.status(Response.Status.FORBIDDEN).entity("User not allowed to change roles.").build();
 
         Entity.Builder builder = Entity.newBuilder(userKey);

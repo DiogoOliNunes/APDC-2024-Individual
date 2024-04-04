@@ -74,6 +74,29 @@ public class LoginResource {
 		return Response.ok().cookie(cookie).build();
 	}
 
+	@POST
+	@Path("/cookie")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response showCookie(@CookieParam("session::apdc") Cookie cookie) {
+		LOG.fine("Getting user's cookie...");
+
+		if (cookie == null || cookie.getValue() == null) {
+			return Response.status(Response.Status.FORBIDDEN).entity("User's cookie invalid.").build();
+		}
+
+		String value = cookie.getValue();
+		String[] values = value.split("\\.");
+
+		String signatureNew = SignatureUtils.calculateHMac(key, values[0]+"."+values[1]+"."+values[2]+"."+values[3]+"."+values[4]);
+		String signatureOld = values[5];
+
+		if(!signatureNew.equals(signatureOld)) {
+			return Response.status(Response.Status.FORBIDDEN).entity("User's cookie invalid.").build();
+		}
+
+		return Response.ok().entity(values).build(); //cookie values e a cookie ?
+	}
+
 	private static boolean checkPassword(LoginData data, Entity user)  {
 		String hashedPass = Hashing.sha512().hashString(data.password, StandardCharsets.UTF_8).toString();
 

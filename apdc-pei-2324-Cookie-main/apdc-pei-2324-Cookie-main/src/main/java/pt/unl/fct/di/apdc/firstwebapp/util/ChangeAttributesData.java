@@ -14,4 +14,5 @@ public class ChangeAttributesData {
         this.newAttribute = newAttribute;
         this.username = username;
     }
+
 }

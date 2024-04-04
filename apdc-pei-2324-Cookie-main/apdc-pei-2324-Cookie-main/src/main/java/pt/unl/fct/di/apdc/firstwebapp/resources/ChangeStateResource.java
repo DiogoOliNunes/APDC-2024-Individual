@@ -33,7 +33,7 @@ public class ChangeStateResource {
         Entity user = datastore.get(userKey);
         String userRole = user.getString("user_role");
 
-        if(user == null || !checkChangeState(cookie, userRole) || userRole.equals("USER") || userRole.equals("GBO"))
+        if(user == null || !checkChangeState(cookie, userRole))
             return Response.status(Response.Status.FORBIDDEN).entity("User not allowed to change states.").build();
 
         String userState = user.getString("user_estado");

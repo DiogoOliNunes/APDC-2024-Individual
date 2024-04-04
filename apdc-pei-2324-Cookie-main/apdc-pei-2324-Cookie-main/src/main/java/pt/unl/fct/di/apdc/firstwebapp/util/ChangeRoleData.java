@@ -13,4 +13,8 @@ public class ChangeRoleData {
         this.username = username;
         this.newRole = newRole;
     }
+
+    public static boolean validRole(String role) {
+        return role.equals("USER") || role.equals("GBO") || role.equals("GA") || role.equals("SU");
+    }
 }
