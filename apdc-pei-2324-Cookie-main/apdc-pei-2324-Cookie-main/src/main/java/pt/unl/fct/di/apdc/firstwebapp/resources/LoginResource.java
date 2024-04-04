@@ -35,7 +35,7 @@ public class LoginResource {
 
 	private static final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
-	public static Map<String, UserData> users = new HashMap<String, UserData>();
+	//public static Map<String, UserData> users = new HashMap<String, UserData>();
 
 	private static final Logger LOG = Logger.getLogger(LoginResource.class.getName());
 	private final Gson g = new Gson();
@@ -51,7 +51,6 @@ public class LoginResource {
 		Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.username);
 		Entity user = datastore.get(userKey);
 
-		//falta definir que quando o estado esta em INATIVO nao pode fazer login
 		if (user.getString("user_estado").equals("INATIVO"))
 			return Response.status(Status.FORBIDDEN).entity("User is inactive.").build();
 
@@ -75,109 +74,26 @@ public class LoginResource {
 		return Response.ok().cookie(cookie).build();
 	}
 
-	@POST
-	@Path("/changeRoles")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response changeRoles(@CookieParam("session::apdc") Cookie cookie, ChangeRoleData data) {
-		LOG.fine("Attempt to change " + data.username + " roles.");
-
-		Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.username);
-		Entity user = datastore.get(userKey);
-
-		if(user == null|| !checkPermissions(cookie, user.getString("user_role")))
-			return Response.status(Status.FORBIDDEN).entity("User not allowed to change roles.").build();
-
-		Entity.Builder builder = Entity.newBuilder(userKey);
-		user.getProperties().forEach(builder::set);
-
-		builder.set("user_role", data.newRole);
-
-		datastore.put(builder.build());
-
-		return Response.ok().entity("Users' roles successfully changed.").build();
-	}
-
-	@POST
-	@Path("/changeState")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response changeState(@CookieParam("session::apdc") Cookie cookie, ChangeUserData data) {
-		LOG.fine("Attempt to change " + data.username + " state.");
-
-		Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.username);
-		Entity user = datastore.get(userKey);
-		String userRole = user.getString("user_role");
-
-		if(user == null || !checkPermissions(cookie, userRole) || userRole.equals("USER") || userRole.equals("GBO"))
-			return Response.status(Status.FORBIDDEN).entity("User not allowed to change states.").build();
-
-		String userState = user.getString("user_estado");
-
-		Entity.Builder builder = Entity.newBuilder(userKey);
-		user.getProperties().forEach(builder::set);
-
-		if (userState.equals("INATIVO"))
-			builder.set("user_estado", "ATIVO");
-		else
-			builder.set("user_estado", "INATIVO");
-
-		datastore.put(builder.build());
-
-		return Response.ok().entity("User's state successfully changed.").build();
-	}
-
-	@POST
-	@Path("/remove")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response removeUser(@CookieParam("session::apdc") Cookie cookie, ChangeUserData data) {
-		LOG.fine("Attempt to remove " + data.username + " from database.");
-
-		Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.username);
-		Entity user = datastore.get(userKey);
-
-		if(user == null || !checkPermissions(cookie, user.getString("user_role")))
-			return Response.status(Status.FORBIDDEN).entity("User not allowed to remove this account.").build();
-
-		datastore.delete(userKey);
-
-		return Response.ok().entity(data.username + " successfully removed from database.").build();
-	}
-
 	private static boolean checkPassword(LoginData data, Entity user)  {
 		String hashedPass = Hashing.sha512().hashString(data.password, StandardCharsets.UTF_8).toString();
 
 		return user != null && user.getString("user_pwd").equals(hashedPass);
 	}
 
-	public static boolean checkPermissions(Cookie cookie, String role) {
-		if (cookie == null || cookie.getValue() == null) {
+	public static boolean checkPermissions(String[] cookieData, String role) {
+
+		int otherUserRole = convertRole(role);
+		int userInSessionRole = convertRole(cookieData[2]);
+
+		if(userInSessionRole < otherUserRole) {
+			return false;
+		} else if (userInSessionRole == otherUserRole && userInSessionRole != 3) {
 			return false;
 		}
 
-		String value = cookie.getValue();
-		String[] values = value.split("\\.");
-
-		String signatureNew = SignatureUtils.calculateHMac(key, values[0]+"."+values[1]+"."+values[2]+"."+values[3]+"."+values[4]);
-		String signatureOld = values[5];
-
-		if(!signatureNew.equals(signatureOld)) {
+		if(System.currentTimeMillis() > (Long.valueOf(cookieData[3]) + Long.valueOf(cookieData[4])*1000)) {
 			return false;
 		}
-
-		if(values[2].equals("USER") || values[2].equals("GBO"))
-			return false;
-
-		int neededRole = convertRole(role);
-		int userInSessionRole = convertRole(values[2]);
-
-		if(userInSessionRole < neededRole) {
-			return false;
-		}
-
-		if(System.currentTimeMillis() > (Long.valueOf(values[3]) + Long.valueOf(values[4])*1000)) {
-
-			return false;
-		}
-
 
 		return true;
 	}
@@ -201,6 +117,7 @@ public class LoginResource {
 		return result;
 	}
 
+	/*
 	@GET
 	@Path("/{username}")
 	public Response checkUsernameAvailable(@PathParam("username") String username) {
@@ -213,6 +130,9 @@ public class LoginResource {
 		return Response.ok().entity(g.toJson(true)).build();
 	}
 
+	 */
+
+	/*
 	@POST
 	@Path("/create")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -229,5 +149,7 @@ public class LoginResource {
 
 		return Response.ok().build();
 	}
+
+	 */
 
 }

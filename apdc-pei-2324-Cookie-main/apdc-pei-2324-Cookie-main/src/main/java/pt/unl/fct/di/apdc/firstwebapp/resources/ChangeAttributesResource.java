@@ -1,39 +1,34 @@
 package pt.unl.fct.di.apdc.firstwebapp.resources;
 
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import com.google.cloud.datastore.Datastore;
+import com.google.cloud.datastore.DatastoreOptions;
+import com.google.cloud.datastore.Entity;
+import com.google.cloud.datastore.Key;
+import pt.unl.fct.di.apdc.firstwebapp.Authentication.SignatureUtils;
+import pt.unl.fct.di.apdc.firstwebapp.util.ChangeAttributesData;
+import pt.unl.fct.di.apdc.firstwebapp.util.LoginData;
+
+import javax.ws.rs.*;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.*;
-
+import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
-
-import com.google.cloud.datastore.*;
-import com.google.common.hash.Hashing;
-import pt.unl.fct.di.apdc.firstwebapp.Authentication.SignatureUtils;
-import pt.unl.fct.di.apdc.firstwebapp.util.ChangePasswordData;
-
-import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 import java.util.logging.Logger;
 
-@Path("/changePassword")
+@Path("/changeAttributes")
 @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-public class ChangePasswordResource {
-
+public class ChangeAttributesResource {
     private static final Logger LOG = Logger.getLogger(LoginResource.class.getName());
-
     private static final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
-
     private static final String key = "dhsjfhndkjvnjdsdjhfkjdsjfjhdskjhfkjsdhfhdkjhkfajkdkajfhdkmc";
-
-    public ChangePasswordResource() {
-    }
+    public ChangeAttributesResource() {}
 
     @POST
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response changePassword(@CookieParam("session::apdc") Cookie cookie, ChangePasswordData data) {
-        LOG.fine("Attempt to change user password.");
+    public Response changeAttributes(@CookieParam("session::apdc") Cookie cookie, ChangeAttributesData data) {
+        LOG.fine("Attempt to change attributes.");
 
         if (cookie == null || cookie.getValue() == null) {
             return Response.status(Response.Status.FORBIDDEN).entity("User log in invalid.").build();
@@ -52,18 +47,19 @@ public class ChangePasswordResource {
         Key userKey = datastore.newKeyFactory().setKind("User").newKey(values[0]);
         Entity user = datastore.get(userKey);
 
-        if(user == null|| data.validPassword(user.getString("user_pwd")))
-            return Response.status(Response.Status.FORBIDDEN).entity("New password is not valid. Try again.").build();
 
-        Entity.Builder builder = Entity.newBuilder(userKey);
-        user.getProperties().forEach(builder::set);
 
-        String hashedPass = Hashing.sha512().hashString(data.newPassword, StandardCharsets.UTF_8).toString();
+        return Response.ok().entity("User attribute successfully changed.").build();
+    }
 
-        builder.set("user_pwd", hashedPass);
-
-        datastore.put(builder.build());
-
-        return Response.ok().entity("Users' password successfully changed.").build();
+    private boolean canChange(String role, String attribute) {
+        switch (role) {
+            case ("USER"):
+                return !attribute.equals("name") && !attribute.equals("user_email") && !attribute.equals("user_name")
+                        && !attribute.equals("user_role") && !attribute.equals("user_estado");
+            case ("GBO"):
+                return false;
+        }
+        return false;
     }
 }
