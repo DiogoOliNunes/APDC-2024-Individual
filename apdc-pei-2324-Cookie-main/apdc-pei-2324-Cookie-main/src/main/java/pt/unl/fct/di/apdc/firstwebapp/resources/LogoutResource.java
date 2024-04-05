@@ -28,9 +28,9 @@ public class LogoutResource {
     public Response doLogout(@CookieParam("session::apdc") Cookie cookie) {
         LOG.fine("Logging out...");
 
-        NewCookie timedOutCookie = new NewCookie(cookie, null, 0, false);
-        cookie = timedOutCookie.toCookie();
-        Response.ok().cookie(timedOutCookie).build();
-        return Response.ok().entity("User successfully logged out.").build();
+        NewCookie timedOutCookie = new NewCookie("session::apdc", cookie.getValue(), "/", null,
+                "comment", 0, false, true);
+
+       return Response.ok("User successfully logged out.").cookie(timedOutCookie).build();
     }
 }
