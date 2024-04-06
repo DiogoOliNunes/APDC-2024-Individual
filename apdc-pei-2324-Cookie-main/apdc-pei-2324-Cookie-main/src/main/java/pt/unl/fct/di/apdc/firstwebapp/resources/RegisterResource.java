@@ -46,7 +46,7 @@ public class RegisterResource {
             Entity user = txn.get(userKey);
             if (user != null) {
                 txn.rollback();
-                return Response.status(Status.FORBIDDEN).build();
+                return Response.status(Status.FORBIDDEN).entity("User already exists.").build();
             }
             else {
                 user = Entity.newBuilder(userKey)

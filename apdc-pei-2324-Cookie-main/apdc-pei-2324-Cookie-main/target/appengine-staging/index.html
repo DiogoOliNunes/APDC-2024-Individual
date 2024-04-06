@@ -1,26 +1,69 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
-  <head>
-    <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
-    <title>My First Web Aoo</title>
-  </head>
+<head>
+  <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
+  <title>Projeto Individual ADC</title>
+  <style>
+    body {
+      text-align: center;
+      background-image: url('img/space.jpg');
+      font-family: 'Roboto Condensed', sans-serif;
+      position: relative;
+      color: white;
+    }
+    h1 {
+      margin-top: 50px;
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: 700;
+    }
+    .login-button, .register-button {
+      position: absolute;
+      margin-top: 10px;
+      background-color: #ffc107;
+      color: #000;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: 'Roboto Condensed', sans-serif;
+    }
+    .login-button {
+      right: 120px;
+    }
+    .register-button {
+      right: 20px;
+    }
+    .gif-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: #ffc107;
+      color: #000;
+      text-align: center;
+      padding: 10px 0;
+    }
+  </style>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap">
+</head>
 
-  <body>
-    <h1>Welcome to my simple web application!</h1>
+<body>
+<h1>WELCOME YOUNG PADAWAN!</h1>
+<button class="login-button" onclick="window.location.href='operations/login.html';">Login</button>
+<button class="register-button" onclick="window.location.href='operations/register.html';">Register</button>
 
-    <table>
-      <tr>
-        <td colspan="2" style="font-weight:bold;">Available Services:</td>        
-      </tr>
-      <tr>
-        <td><a href='/rest/utils/hello'>Say Hello!</a></td><td>(greetings)</td>
-      </tr>
-      <tr>
-        <td><a href='/rest/utils/time'>What time is it?</a></td><td>(see server time)</td>
-      </tr>
-    </table>
-  </body>
-  <footer>
-  	Copyright: FCT NOVA 2023
-  </footer>
+<div class="gif-container">
+  <a href="https://dribbble.com/shots/4165312-X-Wing">
+    <img src="https://cdn.dribbble.com/users/354585/screenshots/4165312/media/63a4d5071e88b8ab6611375018794368.gif" alt="X Wing GIF">
+  </a>
+</div>
+</body>
+
+<footer>
+  Copyright: FCT NOVA 2024
+</footer>
 </html>
