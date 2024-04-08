@@ -1,6 +1,5 @@
 indexes:
-- kind: "listUsers"
-  ancestor: yes
+- kind: "User"
   properties:
   - name: "user_role"
   - name: "user_estado"

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
+  <title>Change Role</title>
+  <style>
+    body {
+      text-align: center;
+      background-image: url('../img/space.jpg');
+      font-family: 'Roboto Condensed', sans-serif;
+      position: relative;
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      width: 50%;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      margin: 50px auto auto;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.3);
+    }
+    h2 {
+      text-align: center;
+      color: #ffc107;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #fff;
+    }
+    input[type=text], input[type=text] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+    input[type=submit] {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      background-color: #ffc107;
+      color: #000;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+    input[type=submit]:hover {
+      background-color: #ffa000;
+    }
+  </style>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap">
+</head>
+<body>
+<div class="container">
+  <h2>Change Role</h2>
+  <form id="changeAttributes">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required>
+
+    <label for="newRole">New Role:</label>
+    <input type="text" id="newRole" name="newRole" required>
+
+    <input type="submit" value="Change">
+  </form>
+</div>
+
+<script>
+  document.getElementById('changeAttributes').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const formData = {
+      username: document.getElementById('username').value,
+      newRole: document.getElementById('newRole').value,
+    };
+
+    fetch('/rest/changeRole/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'cookie': document.cookie
+      },
+      body: JSON.stringify(formData)
+    })
+            .then(response => {
+              console.log('Response status:', response.status);
+              if (!response.ok) {
+                throw new Error('Change failed: ' + response.statusText);
+              }
+            })
+            .then(data => {
+              console.log('Response data:', data);
+              alert('Role successfully changed!');
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              alert(error.message);
+            });
+  });
+</script>
+</body>
+</html>

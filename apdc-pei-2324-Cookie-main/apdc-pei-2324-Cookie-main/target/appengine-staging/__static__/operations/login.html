@@ -21,18 +21,6 @@
       border-radius: 5px;
       box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.3);
     }
-    .return-button {
-      position: fixed;
-      bottom: 10px;
-      left: 10px;
-      background-color: #ffc107;
-      color: #000;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-family: 'Roboto Condensed', sans-serif;
-    }
     h2 {
       text-align: center;
       color: #ffc107;
@@ -85,7 +73,6 @@
 
     <input type="submit" value="Login">
   </form>
-  <button class="return-button" onclick="window.location.href = '../index.html'">Return</button>
 </div>
 
 <script>
@@ -105,7 +92,7 @@
       password: document.getElementById('password').value,
     };
 
-    fetch('/rest/login/', {
+    fetch('/rest/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -114,15 +101,14 @@
     })
             .then(response => {
               console.log('Response status:', response.status);
-              if (response.ok) {
-                return response.json();
-              } else {
-                throw new Error('Login failed: ' + response.statusText); // Throw error if response is not OK
+              if (!response.ok) {
+                throw new Error('Login failed: ' + response.statusText);
               }
             })
             .then(data => {
               console.log('Response data:', data);
               alert('Login successful!');
+              window.location.href = "loginSuccessfull.html";
             })
             .catch(error => {
               console.error('Error:', error);

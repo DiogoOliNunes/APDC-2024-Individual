@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
   <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
-  <title>Projeto Individual ADC</title>
+  <title>Home</title>
   <style>
     body {
       text-align: center;
@@ -16,7 +16,8 @@
       font-family: 'Roboto Condensed', sans-serif;
       font-weight: 700;
     }
-    .login-button, .register-button {
+    .login-button, .register-button, .changeAttributes-button, .changeRole-button, .changeState-button,
+    .removeUser-button, .changePassword-button, .listUsers-button{
       position: absolute;
       margin-top: 10px;
       background-color: #ffc107;
@@ -30,8 +31,34 @@
     .login-button {
       right: 120px;
     }
+    .changePassword-button {
+      right: 360px;
+    }
+    .changeRole-button {
+      position: absolute;
+      top: 110px;
+      right: 20px;
+    }
+    .changeState-button {
+      position: absolute;
+      top: 110px;
+      right: 150px;
+    }
+    .removeUser-button {
+      position: absolute;
+      top: 110px;
+      right: 275px;
+    }
+    .listUsers-button {
+      position: absolute;
+      top: 110px;
+      right: 400px;
+    }
     .register-button {
       right: 20px;
+    }
+    .changeAttributes-button {
+      right: 205px;
     }
     .gif-container {
       display: flex;
@@ -55,11 +82,21 @@
 <h1>WELCOME YOUNG PADAWAN!</h1>
 <button class="login-button" onclick="window.location.href='operations/login.html';">Login</button>
 <button class="register-button" onclick="window.location.href='operations/register.html';">Register</button>
+<button class="changeAttributes-button" onclick="window.location.href='operations/changeAttributes.html';">
+  Change Attributes</button>
+<button class="changeRole-button" onclick="window.location.href='operations/changeRole.html';">
+  Change Roles</button>
+<button class="changeState-button" onclick="window.location.href='operations/changeState.html';">
+  Change State</button>
+<button class="removeUser-button" onclick="window.location.href='operations/removeUser.html';">
+  Remove User</button>
+<button class="changePassword-button" onclick="window.location.href='operations/changePassword.html';">
+  Change Password</button>
+<button class="listUsers-button" onclick="window.location.href='operations/listUsers.html';">
+  List Users</button>
 
 <div class="gif-container">
-  <a href="https://dribbble.com/shots/4165312-X-Wing">
-    <img src="https://cdn.dribbble.com/users/354585/screenshots/4165312/media/63a4d5071e88b8ab6611375018794368.gif" alt="X Wing GIF">
-  </a>
+  <img src="img/x-wing.gif" alt="X Wing GIF">
 </div>
 </body>
 

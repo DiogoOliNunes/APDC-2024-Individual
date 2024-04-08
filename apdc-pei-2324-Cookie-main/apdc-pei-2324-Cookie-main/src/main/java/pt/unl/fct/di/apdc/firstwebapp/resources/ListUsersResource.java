@@ -44,16 +44,14 @@ public class ListUsersResource {
             return Response.status(Response.Status.FORBIDDEN).entity("User not allowed to list users.").build();
         }
 
-        String queryCommand = getQuery(values[2], values[0]);
-        Query<Entity> query = Query.newGqlQueryBuilder(Query.ResultType.ENTITY, queryCommand).build();
+        Query<Entity> query = getQuery(values[2]);
         QueryResults<Entity> queryResults = datastore.run(query);
 
         List<List<String>> outputs = new ArrayList<>();
         if (values[2].equals("USER")) {
             queryResults.forEachRemaining(user -> {outputs.add(List.of(user.getString("name"),
                             user.getString("user_email"),
-                            user.getString("user_name"))
-                    );
+                            user.getString("user_name")));
                     }
             );
         }
@@ -63,60 +61,40 @@ public class ListUsersResource {
             }
             );
         }
-        return Response.ok().entity(queryResults).build();
+        return Response.ok().entity(outputs).build();
     }
 
-    private String getQuery(String role, String username) {
-        String query = null;
+    private Query<Entity> getQuery(String role) {
+        Query<Entity> query = null;
         switch (role) {
             case("USER"):
-                /*
-                query = Query.newEntityQueryBuilder().setKind("listUsers").setFilter(
+                query = Query.newEntityQueryBuilder().setKind("User").setFilter(
                                 CompositeFilter.and(
-                                        PropertyFilter.hasAncestor(
-                                                datastore.newKeyFactory().setKind("User").newKey(username)),
                                         PropertyFilter.eq("user_role", "USER"),
                                         PropertyFilter.eq("user_estado", "ATIVO")
-                                        )
+                                )
                         ).build();
-                 */
-                query = "SELECT * FROM listUsers WHERE user_role = 'USER' AND user_estado = 'ATIVO'";
+                //query = "SELECT * FROM listUsers WHERE user_role = 'USER' AND user_estado = 'ATIVO'";
                 break;
             case ("GBO"):
-                /*
-                query = Query.newEntityQueryBuilder().setKind("listUsers").setFilter(
+                query = Query.newEntityQueryBuilder().setKind("User").setFilter(
                                 CompositeFilter.and(
-                                        PropertyFilter.hasAncestor(
-                                                datastore.newKeyFactory().setKind("User").newKey(username)),
                                         PropertyFilter.eq("user_role", "USER")
-                                    )
+                                )
                         ).build();
-                */
-                query = "SELECT * FROM listUsers WHERE user_role = 'USER'";
+                //query = "SELECT * FROM listUsers WHERE user_role = 'USER'";
                 break;
             case ("GA"):
-                /*
-                String[] rolesPermitted = new String[]{"USER", "GA", "GBO"};
-                query = Query.newEntityQueryBuilder().setKind("listUsers").setFilter(
-                        CompositeFilter.and(
-                                PropertyFilter.hasAncestor(
-                                        datastore.newKeyFactory().setKind("User").newKey(username)),
-                                PropertyFilter.eq("user_role", Arrays.toString(rolesPermitted))
-                        )
-                ).build();
-                */
-                query = "SELECT * FROM listUsers WHERE user_role IN ('USER', 'GBO', 'GA')";
+                query = Query.newEntityQueryBuilder().setKind("User").setFilter(
+                                CompositeFilter.and(
+                                        PropertyFilter.neq("user_role", "SU")
+                                )
+                        ).build();
+                //query = "SELECT * FROM listUsers WHERE user_role IN ('USER', 'GBO', 'GA')";
                 break;
             case ("SU"):
-                /*
-                query = Query.newEntityQueryBuilder().setKind("listUsers").setFilter(
-                        CompositeFilter.and(
-                                PropertyFilter.hasAncestor(
-                                        datastore.newKeyFactory().setKind("User").newKey(username))
-                        )
-                ).build();
-                */
-                query = "SELECT * FROM listUsers";
+                query = Query.newEntityQueryBuilder().setKind("User").build();
+                //query = "SELECT * FROM listUsers";
                 break;
         }
         return query;

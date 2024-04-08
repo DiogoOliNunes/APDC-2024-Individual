@@ -31,18 +31,6 @@
             font-weight: bold;
             color: #fff;
         }
-        .return-button {
-            position: fixed;
-            bottom: 10px;
-            left: 10px;
-            background-color: #ffc107;
-            color: #000;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-family: 'Roboto Condensed', sans-serif;
-        }
         input[type=text], input[type=email], input[type=password] {
             width: 100%;
             padding: 10px;
@@ -97,7 +85,6 @@
 
         <input type="submit" value="Register">
     </form>
-    <button class="return-button" onclick="window.location.href = '../index.html'">Return</button>
 </div>
 
 <script>
@@ -130,10 +117,8 @@
         })
             .then(response => {
                 console.log('Response status:', response.status);
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Registration failed: ' + response.statusText); // Throw error if response is not OK
+                if (!response.ok) {
+                    throw new Error('Registration failed: ' + response.statusText);
                 }
             })
             .then(data => {

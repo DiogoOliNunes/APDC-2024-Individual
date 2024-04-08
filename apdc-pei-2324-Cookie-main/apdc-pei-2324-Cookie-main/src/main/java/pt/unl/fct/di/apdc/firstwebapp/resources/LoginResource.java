@@ -26,7 +26,6 @@ import com.google.gson.Gson;
 @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 public class LoginResource {
 
-	//Settings that must be in the database
 	public static final String SU = "SU";
 	public static final String GBO = "GBO";
 	public static final String GA = "GA";
@@ -34,8 +33,6 @@ public class LoginResource {
 	private static final String key = "dhsjfhndkjvnjdsdjhfkjdsjfjhdskjhfkjsdhfhdkjhkfajkdkajfhdkmc";
 
 	private static final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
-
-	//public static Map<String, UserData> users = new HashMap<String, UserData>();
 
 	private static final Logger LOG = Logger.getLogger(LoginResource.class.getName());
 	private final Gson g = new Gson();
@@ -94,7 +91,7 @@ public class LoginResource {
 			return Response.status(Response.Status.FORBIDDEN).entity("User's cookie invalid.").build();
 		}
 
-		return Response.ok().entity(values).build(); //cookie values e a cookie ?
+		return Response.ok().entity(values).build();
 	}
 
 	private static boolean checkPassword(LoginData data, Entity user)  {

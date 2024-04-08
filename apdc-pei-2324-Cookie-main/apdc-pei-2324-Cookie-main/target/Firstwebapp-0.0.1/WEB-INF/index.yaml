@@ -1,7 +1,7 @@
 indexes:
 
-  - kind: listUsers
-    ancestor: yes
+  - kind: User
+    ancestor: no
     properties:
       - name: user_role
       - name: user_estado

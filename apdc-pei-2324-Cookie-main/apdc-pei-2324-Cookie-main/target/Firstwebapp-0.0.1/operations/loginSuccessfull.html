@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
+  <title>Home</title>
+  <style>
+    body {
+      text-align: center;
+      background-image: url('../img/space.jpg');
+      font-family: 'Roboto Condensed', sans-serif;
+      position: relative;
+      color: white;
+    }
+    h1 {
+      margin-top: 50px;
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: 700;
+    }
+    .logout-button, .cookie-button, .changeAttributes-button, .changeRole-button, .changeState-button,
+    .removeUser-button, .changePassword-button, .listUsers-button{
+      position: absolute;
+      margin-top: 10px;
+      background-color: #ffc107;
+      color: #000;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: 'Roboto Condensed', sans-serif;
+    }
+    .logout-button {
+      right: 120px;
+    }
+    .cookie-button {
+      right: 30px;
+    }
+    .changePassword-button {
+      right: 360px;
+    }
+    .changeRole-button {
+      position: absolute;
+      top: 110px;
+      right: 20px;
+    }
+    .changeState-button {
+      position: absolute;
+      top: 110px;
+      right: 150px;
+    }
+    .removeUser-button {
+      position: absolute;
+      top: 110px;
+      right: 275px;
+    }
+    .listUsers-button {
+      position: absolute;
+      top: 110px;
+      right: 400px;
+    }
+    .changeAttributes-button {
+      right: 210px;
+    }
+    .gif-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: #ffc107;
+      color: #000;
+      text-align: center;
+      padding: 10px 0;
+    }
+  </style>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap">
+</head>
+
+<body>
+<audio controls autoplay>
+  <embed name="StarWars" src="../img/01%20Antisocial.mp3" loop="true" autostart="true">
+  You are not cool enough to support audio.
+</audio>
+<h1>WELCOME YOUNG PADAWAN!</h1>
+<button class="logout-button" onclick="logout()">Logout</button>
+<button class="changeAttributes-button" onclick="window.location.href='changeAttributes.html';">
+  Change Attributes</button>
+<button class="changeRole-button" onclick="window.location.href='changeRole.html';">
+  Change Roles</button>
+<button class="changeState-button" onclick="window.location.href='changeState.html';">
+  Change State</button>
+<button class="removeUser-button" onclick="window.location.href='removeUser.html';">
+  Remove User</button>
+<button class="changePassword-button" onclick="window.location.href='changePassword.html';">
+  Change Password</button>
+<button class="listUsers-button" onclick="window.location.href='listUsers.html';">
+  List Users</button>
+<button class="cookie-button" onclick="window.location.href='showCookie.html';">
+  Cookie</button>
+
+<div class="gif-container">
+    <img src="../img/x-wing.gif" alt="X Wing GIF">
+</div>
+</body>
+<script>
+  function logout() {
+    fetch('/rest/logout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'cookie': document.cookie
+      }
+    })
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Logout failed: ' + response.statusText);
+              }
+              window.location.href = "../index.html";
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              alert(error.message);
+            });
+  }
+</script>
+
+<footer>
+  Copyright: FCT NOVA 2024
+</footer>
+</html>
+
