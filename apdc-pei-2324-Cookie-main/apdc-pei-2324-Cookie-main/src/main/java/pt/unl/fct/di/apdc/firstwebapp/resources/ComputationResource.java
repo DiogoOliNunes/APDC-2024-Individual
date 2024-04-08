@@ -42,18 +42,5 @@ public class ComputationResource {
 			return Response.temporaryRedirect(URI.create("/error/500.html")).build();
 		}
 	}
-
-	/*
-	@GET
-	@Path("/time")
-	public Response getCurrentTime(@CookieParam("session::apdc") Cookie cookie) {
-		if(!LoginResource.checkPermissions(cookie, LoginResource.ADMIN)) {
-			return Response.status(Status.FORBIDDEN).entity("Incorrect username or password.").build();
-		}
-		
-		return Response.ok().entity(g.toJson(fmt.format(new Date()))).build();
-	}
-
-	 */
 	
 }

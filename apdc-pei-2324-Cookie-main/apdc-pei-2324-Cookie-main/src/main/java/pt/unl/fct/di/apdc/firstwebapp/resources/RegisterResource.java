@@ -34,7 +34,6 @@ public class RegisterResource {
     public Response doRegistration(RegisterData data) {
         LOG.fine("Attempt to register user: " + data.username);
 
-        // Checks input data
         if (!data.validRegistration()) {
             return Response.status(Status.BAD_REQUEST).entity("Missing or wrong parameter. " +
                     "Password has to be at least 6 characters").build();

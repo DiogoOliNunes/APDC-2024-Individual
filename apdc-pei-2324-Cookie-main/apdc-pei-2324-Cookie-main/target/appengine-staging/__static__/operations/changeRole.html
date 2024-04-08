@@ -90,16 +90,14 @@
             .then(response => {
               console.log('Response status:', response.status);
               if (!response.ok) {
-                throw new Error('Change failed: ' + response.statusText);
+                throw new Error('Change failed.');
               }
             })
             .then(data => {
-              console.log('Response data:', data);
               alert('Role successfully changed!');
             })
             .catch(error => {
-              console.error('Error:', error);
-              alert(error.message);
+              alert("Error!")
             });
   });
 </script>

@@ -25,15 +25,21 @@ public class RegisterData {
     }
 
     public boolean validRegistration() {
-        return (!username.isBlank() && !email.isBlank() && email.contains("@") && !name.isBlank()
-                && !phone.isBlank() && onlyDigits(phone) && validPassword(password) && password.equals(confirmation));
+        return (!username.isBlank() && !name.isBlank()
+                && onlyDigits(phone) && validPassword(password) && password.equals(confirmation));
     }
 
     public static boolean validPassword(String password) {
         return (!password.isBlank() && password.length() > 5);
     }
 
+    public static boolean validEmail(String newEmail) {
+        String[] email = newEmail.split("@");
+        return !newEmail.isBlank() && email.length == 2 && onlyLetters(email[0]) && onlyLetters(email[1]);
+    }
     public static boolean onlyDigits(String newPhone) {
+        if (newPhone.isBlank())
+            return false;
         for (int i = 0; i < newPhone.length(); i++) {
             if (!Character.isDigit(newPhone.charAt(i))) {
                 return false;

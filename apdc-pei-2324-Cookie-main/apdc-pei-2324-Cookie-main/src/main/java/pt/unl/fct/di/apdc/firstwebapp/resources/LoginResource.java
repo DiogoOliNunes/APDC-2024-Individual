@@ -15,7 +15,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import com.google.cloud.datastore.*;
-import com.google.cloud.datastore.StructuredQuery;
 import com.google.common.hash.Hashing;
 import pt.unl.fct.di.apdc.firstwebapp.util.*;
 import pt.unl.fct.di.apdc.firstwebapp.Authentication.SignatureUtils;

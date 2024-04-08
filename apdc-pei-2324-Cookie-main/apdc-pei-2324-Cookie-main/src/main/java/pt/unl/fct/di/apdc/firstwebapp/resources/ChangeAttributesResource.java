@@ -7,15 +7,12 @@ import com.google.cloud.datastore.Key;
 import com.google.common.hash.Hashing;
 import pt.unl.fct.di.apdc.firstwebapp.Authentication.SignatureUtils;
 import pt.unl.fct.di.apdc.firstwebapp.util.ChangeAttributesData;
-import pt.unl.fct.di.apdc.firstwebapp.util.LoginData;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import java.nio.charset.StandardCharsets;
-import java.util.UUID;
 import java.util.logging.Logger;
 
 import static pt.unl.fct.di.apdc.firstwebapp.util.RegisterData.*;
@@ -95,16 +92,18 @@ public class ChangeAttributesResource {
         return false;
     }
 
-    public static boolean validNewAttribute(String attribute, String newAttribute) { //falta o user_creation_time
+    public static boolean validNewAttribute(String attribute, String newAttribute) {
         if (newAttribute.isBlank())
             return false;
-        if (attribute.equals("user_phone"))
+        if (attribute.equals("user_phone") || attribute.equals("user_nif"))
             return onlyDigits(newAttribute);
+        if (attribute.equals("user_perfil"))
+            return newAttribute.equals("PUBLIC") || newAttribute.equals("PRIVATE");
         if (attribute.equals("user_pwd"))
             return validPassword(newAttribute);
         if (attribute.equals("user_email"))
             return newAttribute.contains("@");
-        if (attribute.equals("user_name"))
+        if (attribute.equals("user_name") || attribute.equals("user_ocupation"))
             return onlyLetters(newAttribute);
         if (attribute.equals("user_role"))
             return validRole(newAttribute);

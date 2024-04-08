@@ -84,7 +84,6 @@
       attribute: document.getElementById('attribute').value,
       newAttribute: document.getElementById('newAttribute').value,
       username: document.getElementById('username').value,
-      password: document.getElementById('password').value,
     };
 
     fetch('/rest/changeAttributes/', {
@@ -98,16 +97,14 @@
             .then(response => {
               console.log('Response status:', response.status);
               if (!response.ok) {
-                throw new Error('Change failed: ' + response.statusText);
+                throw new Error('Change failed.');
               }
             })
             .then(data => {
-              console.log('Response data:', data);
               alert('Attributes successfully changed!');
             })
             .catch(error => {
-              console.error('Error:', error);
-              alert(error.message);
+              alert("Error!")
             });
   });
 </script>

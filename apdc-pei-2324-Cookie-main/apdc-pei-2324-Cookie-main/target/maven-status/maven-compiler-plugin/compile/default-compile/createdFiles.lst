@@ -1,3 +1,4 @@
+pt\unl\fct\di\apdc\firstwebapp\servlets\MediaResourceServlet.class
 pt\unl\fct\di\apdc\firstwebapp\util\ChangeRoleData.class
 pt\unl\fct\di\apdc\firstwebapp\resources\ListUsersResource.class
 pt\unl\fct\di\apdc\firstwebapp\resources\ChangeAttributesResource.class
@@ -14,6 +15,9 @@ pt\unl\fct\di\apdc\firstwebapp\resources\LoginResource.class
 pt\unl\fct\di\apdc\firstwebapp\filters\AdditionalResponseHeadersFilter.class
 pt\unl\fct\di\apdc\firstwebapp\resources\RemoveUserResource.class
 pt\unl\fct\di\apdc\firstwebapp\resources\ComputationResource.class
+pt\unl\fct\di\apdc\firstwebapp\servlets\StartRoot.class
+pt\unl\fct\di\apdc\firstwebapp\resources\ShowProfile.class
 pt\unl\fct\di\apdc\firstwebapp\util\LoginData.class
 pt\unl\fct\di\apdc\firstwebapp\util\RegisterData.class
 pt\unl\fct\di\apdc\firstwebapp\resources\ChangeStateResource.class
+pt\unl\fct\di\apdc\firstwebapp\resources\ChangeProfilePicture.class
